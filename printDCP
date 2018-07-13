@@ -1,0 +1,97 @@
+#!/bin/bash
+#----------------------------------------------
+# PrintDCP
+#----------------------------------------------
+# GNU GPLv3
+# (c)2018 Jeff Billings
+#----------------------------------------------
+
+usage () {
+  echo "Usage: printDCP"
+  echo "  -h --help        Usage instructions"
+  echo "  -i --initialize  Initialize DCP Drive"
+  echo "  -p --print       Copy DCP to Drive"
+}
+cancel () {
+  echo "(Cancelled by user)"
+  exit 1
+}
+check () {
+  if [[ $? -eq 1 ]]; then
+    cancel
+  fi
+}
+finish () {
+  echo "(Finished)"
+  exit 0
+}
+initialize () {
+  intro=$(zenity --info \
+    --title="[PrintDCP] Initialize DCP Drive" \
+    --width=300 --height=100 \
+    --text="Please insert a drive to be <b>erased</b> and formatted." \
+    2>/dev/null
+  )
+  check
+  lsblk -I 8 -d -n -l --output NAME,MODEL,SIZE | drive=$(zenity \
+    --list --title "[PrintDCP] Initialize DCP Drive" \
+    --width 400 --height 300 \
+    --text "Select drive to <b>erase</b> and format:" \
+    --radiolist --column "" --column "Device" \
+    2>/dev/null \
+  )
+  check
+  name=$(zenity --entry --title "[PrintDCP] Drive Name" --text "Enter a 10 character name:" --entry-text="DCP001")
+  check
+  echo "(Initializing DCP Drive ...)"
+  echo $drive & PIPED_PID=$!
+  tail -f /dev/null --pid $PIPED_PID | (
+    zenity --progress --pulsate --auto-close \
+    --width=300 --height=200 \
+    --title="[PrintDCP]" \
+    --text="Initializing Drive..." 2>/dev/null || kill $PIPED_PID );
+  exit 0
+}
+print () {
+  intro=$(zenity --info \
+    --title="[PrintDCP] Copy DCP to Drive" \
+    --width=300 --height=100 \
+    --text="Please mount the source media and destination drive at this time." \
+    2>/dev/null
+  )
+  check
+   source=$(zenity --file-selection --directory \
+    --title="[PrintDCP] Choose source DCP folder ..." \
+    --filename=$HOME/ \
+    2>/dev/null
+  )
+  check
+  destination=$(zenity --file-selection --directory \
+    --title="[PrintDCP] Choose destination drive (root) ..." \
+    --filename=$HOME/ \
+    2>/dev/null
+  )
+  check
+  echo "(Copying DCP Folder ...)"
+  rsync -ah --progress --chmod 755 $source $destination & PIPED_PID=$!
+  tail -f /dev/null --pid $PIPED_PID | (
+    zenity --progress --pulsate \
+    --width=300 --height=200 \
+    --title="[PrintDCP]" \
+    --text="Copying DCP..." 2>/dev/null || kill $PIPED_PID );
+  exit 0
+}
+if [ "$#" -eq 0 ]; then usage; fi
+while [[ "$#" > 0 ]]; do case $1 in
+  -i|--initialize)
+    initialize
+    finish
+    shift;;
+  -p|--print)
+    print
+    finish
+    shift;;
+  -h|--help|*)
+    usage
+    exit 1;;
+esac; shift; done

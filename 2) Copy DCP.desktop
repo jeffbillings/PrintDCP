@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=printDCP
+Icon=/usr/share/icons/Adwaita/scalable/categories/applications-multimedia-symbolic.svg
+Exec=sh -c "cd `dirname %k`; ./printDCP --print"
+Name[en_US]=2) Copy DCP
