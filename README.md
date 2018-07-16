@@ -1,5 +1,4 @@
-## Introduction
-This script automates initializing and populating DCP drives.
+This is a GUI- and command-based script that automates the preparation of DCP drives.
 
 ## Requirements
 - Any PC or Mac you have kicking around
@@ -21,8 +20,5 @@ Set permissions to local user
 Terminal usage instructions
 `printDCP -h`
 
-## License
 GNU General Public License v3
-
-
 ©2018 Jeff Billings.
