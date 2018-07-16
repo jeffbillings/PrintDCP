@@ -6,20 +6,23 @@
 # (c)2018 Jeff Billings
 #------------------------------
 
-usage () {
+help () {
   echo "printDCP - automates the process of creating DCP drives"
   echo " "
   echo "Usage: printDCP -g"
-  echo "Usage: printDCP -i [drive device path] \"[volume name]\""
+  echo "Usage: printDCP -i \"[volume name]\" [drive device path]"
   echo "Usage: printDCP -p [source path] [destination path]"
   echo " "
-  echo "  -h --help        Usage instructions"
-  echo "  -i --initialize  Initialize DCP Drive"
-  echo "  -p --print       Copy DCP to Drive"
-  echo "  -g --gui	   Launch Graphical Interface"
+  echo "  -i --init  Initialize DCP Drive"
+  echo "  -c --copy  Copy DCP to Drive"
+  echo "  -g --gui   Launch Graphical Interface"
 }
 cancel () {
   echo "(Cancelled by user)"
+  exit 1
+}
+error () {
+  echo "(Error) "$1
   exit 1
 }
 check () {
@@ -31,7 +34,16 @@ finish () {
   echo "(Finished)"
   exit 0
 }
-initialize () {
+init () {
+  sudo umount $2
+  sudo mkfs.ext3 -I 128 -F -L $1 $2
+  sudo mkdir /media/$USER/$1
+  sudo mount $2 /media/$USER/$1 
+}
+copy () {
+  rsync -ah --progress --chmod 755 $1 $2
+}
+gui () {
   intro=$(zenity --info \
     --title="[PrintDCP] Initialize DCP Drive" \
     --width=300 --height=100 \
@@ -57,9 +69,7 @@ initialize () {
     --width=300 --height=200 \
     --title="[PrintDCP]" \
     --text="Initializing drive..." 2>/dev/null || kill $PIPED_PID );
-  exit 0
-}
-print () {
+  check
   intro=$(zenity --info \
     --title="[PrintDCP] Copy DCP to Drive" \
     --width=300 --height=100 \
@@ -90,15 +100,24 @@ print () {
 }
 if [ "$#" -eq 0 ]; then usage; fi
 while [[ "$#" > 0 ]]; do case $1 in
-  -i|--initialize)
-    initialize
+  -i|--init)
+    if [ -n "$2" ] && [ -n "$3" ]; then 
+      init $2 $3; finish
+    else
+      error "Missing arguments"; fi
+    shift;;
+  -c|--copy)
+    if [ -n "$2" ] && [ -n "$3" ]; then 
+      copy $2 $3; finish
+    else
+      error "Missing arguments"; fi
     finish
     shift;;
-  -p|--print)
-    print
+  -g|--gui)
+    gui
     finish
     shift;;
   -h|--help|*)
-    usage
+    help
     exit 1;;
 esac; shift; done
