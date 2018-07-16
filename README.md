@@ -1,4 +1,5 @@
-This is a GUI- and command-based script that automates the preparation of DCP drives.
+## Introduction
+PrintDCP is a GUI and terminal-based utility that automates the preparation of DCP drives.
 
 ## Requirements
 - Any PC or Mac you have kicking around
