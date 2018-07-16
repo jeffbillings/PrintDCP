@@ -1,16 +1,22 @@
 #!/bin/bash
-#----------------------------------------------
-# PrintDCP
-#----------------------------------------------
+#------------------------------
+# PrintDCP v1.01
+#------------------------------
 # GNU GPLv3
 # (c)2018 Jeff Billings
-#----------------------------------------------
+#------------------------------
 
 usage () {
-  echo "Usage: printDCP"
+  echo "printDCP - automates the process of creating DCP drives"
+  echo " "
+  echo "Usage: printDCP -g"
+  echo "Usage: printDCP -i [drive device path] \"[volume name]\""
+  echo "Usage: printDCP -p [source path] [destination path]"
+  echo " "
   echo "  -h --help        Usage instructions"
   echo "  -i --initialize  Initialize DCP Drive"
   echo "  -p --print       Copy DCP to Drive"
+  echo "  -g --gui	   Launch Graphical Interface"
 }
 cancel () {
   echo "(Cancelled by user)"
@@ -33,23 +39,24 @@ initialize () {
     2>/dev/null
   )
   check
-  lsblk -I 8 -d -n -l --output NAME,MODEL,SIZE | drive=$(zenity \
-    --list --title "[PrintDCP] Initialize DCP Drive" \
+  IFS=$'\n'
+  drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE | 
+    awk -F '"' '{print $2"\n"$4"\n"$6}' |
+    zenity --list --title "[PrintDCP] Initialize DCP Drive" \
     --width 400 --height 300 \
     --text "Select drive to <b>erase</b> and format:" \
-    --radiolist --column "" --column "Device" \
-    2>/dev/null \
-  )
+    --column "Device" --column "Model" --column "Size" \
+    2>/dev/null )
   check
-  name=$(zenity --entry --title "[PrintDCP] Drive Name" --text "Enter a 10 character name:" --entry-text="DCP001")
+  name=$(zenity --entry --title "[PrintDCP] Drive Name" --text "Enter a drive name:\n(Up to 20 characters)" --entry-text="DCP001" 2>/dev/null)
   check
   echo "(Initializing DCP Drive ...)"
-  echo $drive & PIPED_PID=$!
+  sudo mkfs.ext3 -I 128 -L $name $drive & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
-    zenity --progress --pulsate --auto-close \
+    zenity --progress --pulsate \
     --width=300 --height=200 \
     --title="[PrintDCP]" \
-    --text="Initializing Drive..." 2>/dev/null || kill $PIPED_PID );
+    --text="Initializing drive..." 2>/dev/null || kill $PIPED_PID );
   exit 0
 }
 print () {

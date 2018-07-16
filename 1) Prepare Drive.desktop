@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Terminal=false
-Name=printDCP
-Icon=/usr/share/icons/Adwaita/scalable/devices/drive-harddisk-system-symbolic.svg
-Exec=sh -c "cd `dirname %k`; ./printDCP --initialize"
-Name[en_US]=1) Prepare Drive
