@@ -24,6 +24,5 @@ Terminal usage instructions
 ## License
 GNU General Public License v3
 
----
-
+##
 ©2018 Jeff Billings.
