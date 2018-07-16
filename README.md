@@ -20,5 +20,7 @@ Set permissions to local user
 Terminal usage instructions
 `printDCP -h`
 
+##
 GNU General Public License v3
+
 ©2018 Jeff Billings.
