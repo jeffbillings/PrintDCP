@@ -36,7 +36,7 @@ ops () {
   mkfs.ext2 -I 128 -F -L $1 $3
   mkdir /media/$1
   mount $3 /media/$1
-  rsync -a --progress --chmod 755 $2 /media/$1
+  rsync -a --progress --checksum --chmod 755 $2 /media/$1
 }
 gui () {
   IFS=$'\n'
@@ -58,7 +58,7 @@ gui () {
   check
   ops $name $source $drive & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
-    zenity --progress --pulsate \
+    zenity zenity --text-info \
     --width=300 --height=200 \
     --title="PrintDCP" \
     --text="Copying DCP..." 2>/dev/null || kill $PIPED_PID );
