@@ -1,5 +1,5 @@
 ## Introduction
-PrintDCP is a GUI and terminal-based utility that automates the preparation of DCP drives.
+PrintDCP automates the process of creating DCP drives in their native environment.
 
 ## Requirements
 - Any PC or Mac you have kicking around
@@ -18,8 +18,11 @@ Clone the repository
 Set permissions to local user
 `sudo chown -R $user:$group PrintDCP`
 
-Terminal usage instructions
-`printDCP -h`
+Copy script
+`sudo cp PrintDCP/printDCP /usr/bin
+
+Command line usage
+`sudo ./printDCP -h`
 
 ##
 GNU General Public License v3
