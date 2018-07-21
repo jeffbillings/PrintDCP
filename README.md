@@ -1,5 +1,5 @@
-## Introduction
-PrintDCP automates the process of creating DCP drives in their native environment.
+# PrintDCP
+Automates the process of creating DCP drives in their native environment.
 
 ## Requirements
 - Any PC or Mac you have kicking around
@@ -24,7 +24,9 @@ Copy script
 Command line usage
 `sudo ./printDCP -h`
 
-##
+## License
 GNU General Public License v3
+
+---
 
 ©2018 Jeff Billings.
