@@ -19,7 +19,7 @@ Set permissions to local user
 `sudo chown -R $user:$group PrintDCP`
 
 Copy script
-`sudo cp PrintDCP/printDCP /usr/bin
+`sudo cp PrintDCP/printDCP /usr/bin`
 
 Command line usage
 `sudo ./printDCP -h`
