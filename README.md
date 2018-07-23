@@ -13,15 +13,13 @@ Automates the process of creating DCP drives in their native environment.
 
 ## Advanced
 Setup
-```sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
-sudo chown -R $user:$group PrintDCP
-sudo cp PrintDCP/printDCP /usr/bin
-```
+    sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
+    sudo chown -R $user:$group PrintDCP
+    sudo cp PrintDCP/printDCP /usr/bin
 
 Usage
-```sudo printDCP [volume name] [source path] [drive device path]
-sudo printDCP "DCP001" /media/externalHD/DCP_Folder /dev/sdb
-```
+    sudo printDCP [volume name] [source path] [drive device path]
+    sudo printDCP "DCP001" /media/externalHD/DCP_Folder /dev/sdb
 
 ## License
 GNU General Public License v3
