@@ -29,19 +29,19 @@ finish () {
   exit 0
 }
 ops () {
-  volumeLabel=$1
-  sourcePath=$2
-  drivePath=$3
+  name=$1
+  source=$2
+  drive=$3
   password=$4
   echo "Unmounting device..."
-    echo -e $password | sudo -S umount $drivePath
+    echo -e $password | sudo -S umount $drive
   echo "Creating partition..."
-    echo -e $password | sudo -S mkfs.ext2 -I 128 -F -L $volumeLabel $drivePath
+    echo -e $password | sudo -S mkfs.ext2 -I 128 -F -L $name $drive
   echo "Mounting volume..."
-    gio mount -d $drivePath
-    mountPoint=$(lsblk $drivePath -o MOUNTPOINT -n)
+    gio mount -d $drive
+    mount=$(lsblk $drive -o MOUNTPOINT -n)
   echo "Copying DCP, performing checksum, setting permissions..."
-    echo -e $password | sudo -S rsync -a --progress --checksum --chmod 755 $sourcePath $mountPoint
+    echo -e $password | sudo -S rsync -a --progress --checksum --chmod 755 $source $mount
 }
 gui () {
   IFS=$'\n'
@@ -66,7 +66,7 @@ gui () {
     2>/dev/null
   )
   check
-  password="$(zenity --password --title=PrintDCP)\n"
+  password="$(zenity --password --title=PrintDCP 2>/dev/null)\n"
   check
   ops $name $source $drive $password & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
@@ -79,19 +79,23 @@ if [ "$#" -eq 0 ]; then
   help
 fi
 while [[ "$#" > 0 ]]; do case $1 in
+  -h|--help)
+    help
+    shift;;
   -g|--gui)
     gui
     finish
-    shift;;
-  -h|--help)
-    help
     shift;;
   *)
     if [ $# -ne 3 ]; then
       error "Invalid arguments"
     else
-      read -s -p "Enter your password: " password
-      ops $1 $2 $3 $password
+      name=$1
+      source=$2
+      drive=$3
+      read -s -p "Enter your system password: " password
+      echo " "
+      ops $name $source $drive $password
       finish
     fi
 esac; shift; done
