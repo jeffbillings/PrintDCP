@@ -89,6 +89,7 @@ gui () {
     2>/dev/null || kill $PIPED_PID );
   check
   zenity --info \
+    --width=300 --height=150 \
     --title="PrintDCP" \
     --text="Drive preparation finished." \
     2>/dev/null
