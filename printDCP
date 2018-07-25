@@ -32,16 +32,16 @@ ops () {
   volumeLabel=$1
   sourcePath=$2
   drivePath=$3
-  echo "Unmounting drive..."
-    umount $drivePath
-  echo "Creating partition table..."
-    mkfs.ext2 -I 128 -F -L $volumeLabel $sourcePath
-  echo "Creating mount destination..."
-    mkdir /media/$volumeLabel
-  echo "Mounting new volume..."
-    mount $drivePath /media/$volumeLabel
-  echo "Copying DCP to destination (with checksum)..."
-    rsync -a --progress --checksum --chmod 755 $sourcePath /media/$volumeLabel
+  password=$4
+  echo "Unmounting device..."
+    echo -e $password | sudo -S umount $drivePath
+  echo "Creating partition..."
+    echo -e $password | sudo -S mkfs.ext2 -I 128 -F -L $volumeLabel $drivePath
+  echo "Mounting volume..."
+    gio mount -d $drivePath
+    mountPoint=$(lsblk $drivePath -o MOUNTPOINT -n)
+  echo "Copying DCP, performing checksum, setting permissions..."
+    echo -e $password | sudo -S rsync -a --progress --checksum --chmod 755 $sourcePath $mountPoint
 }
 gui () {
   IFS=$'\n'
@@ -66,7 +66,9 @@ gui () {
     2>/dev/null
   )
   check
-  ops $name $source $drive & PIPED_PID=$!
+  password="$(zenity --password --title=PrintDCP)\n"
+  check
+  ops $name $source $drive $password & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
     zenity --progress --pulsate \
     --width=300 --height=200 \
@@ -88,7 +90,8 @@ while [[ "$#" > 0 ]]; do case $1 in
     if [ $# -ne 3 ]; then
       error "Invalid arguments"
     else
-      ops $1 $2 $3
+      read -s -p "Enter your password: " password
+      ops $1 $2 $3 $password
       finish
     fi
 esac; shift; done
