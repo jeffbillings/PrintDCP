@@ -7,18 +7,14 @@ Automates the process of creating DCP drives in their native environment.
 - Source DCP Package Folder (on harddrive or network)
 - Destination Drive (CRU hotswap, usb external, usb thumb)
 
-## Installation
-1. Download this Ubuntu Snap (coming soon)
-2. Follow the instructions to install
-
-## Advanced
-Setup
+## Usage
+Install
 ```
 sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
 sudo cp PrintDCP/printDCP /usr/bin
 ```
 
-Usage (GUI)
+Launch
 ```
 printDCP -g
 ```
