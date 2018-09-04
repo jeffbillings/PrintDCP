@@ -23,11 +23,6 @@ Usage (GUI)
 printDCP -g
 ```
 
-Usage (Command line)
-```
-printDCP -h
-```
-
 ## License
 GNU General Public License v3
 
