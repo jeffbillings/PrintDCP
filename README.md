@@ -18,14 +18,14 @@ sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
 sudo cp PrintDCP/printDCP /usr/bin
 ```
 
-Usage
+Usage (GUI)
 ```
-printDCP [volume name] [source path] [drive device path]
+printDCP -g
 ```
 
-Example
+Usage (Command line)
 ```
-printDCP "DCP001" /media/externalHD/DCP_Folder /dev/sdb
+printDCP -h
 ```
 
 ## License
