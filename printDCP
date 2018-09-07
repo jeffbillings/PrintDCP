@@ -6,10 +6,14 @@
 # (c)2018 Jeff Billings
 #------------------------
 
+if [ $UID -ne 0 ]; then
+  echo "This script must be run as root."
+  exit 1
+fi
 help () {
   echo "printDCP - automates the process of creating DCP drives"
   echo " "
-  echo "Usage:   printDCP \"[volume name]\" [source path] [drive device path]"
+  echo "Usage:   printDCP [source path] [drive device path]"
   echo " "
   echo "  -g --gui   Graphical Interface"
   echo "  -h --help  Operating Instructions"
@@ -30,22 +34,21 @@ finish () {
 }
 init () {
   drive=$1
-  name=$2
-  password=$3
   echo "Unmounting device..."
-    echo -e $password | sudo -S umount $drive
+    umount -a $drive
   echo "Creating partition..."
-    echo -e $password | sudo -S mkfs.ext2 -I 128 -F -L $name $drive
+    parted -s $drive mklabel msdos
+    parted -s $drive mkpart primary 0% 100%
+    mkfs -t ext3 -I 128 -m 0 -F "${drive}1"
   echo "Mounting volume..."
     gio mount -d $drive
 }
 copy () {
   drive=$1
   source=$2
-  password=$3
   mount=$(lsblk $drive -o MOUNTPOINT -n)
   echo "Copying DCP, performing checksum, setting permissions..."
-    echo -e $password | sudo -S rsync -a --progress --checksum --chmod 755 $source $mount
+    rsync -a --progress --checksum --chmod 755 $source $mount
 }
 gui () {
   IFS=$'\n'
@@ -58,21 +61,13 @@ gui () {
     --column="Device" --column="Model" --column="Size" \
     2>/dev/null )
   check
-  name=$(zenity --entry \
-    --title="PrintDCP" \
-    --text="Enter a drive name:\n(Up to 20 characters)" \
-    --entry-text="DCP001" \
-    2>/dev/null)
-  check
   source=$(zenity --file-selection --directory \
     --title="Choose source DCP folder ..." \
     --filename=$HOME/ \
     2>/dev/null
   )
   check
-  password="$(zenity --password --title PrintDCP 2>/dev/null)\n"
-  check
-  init $drive $name $password & PIPED_PID=$!
+  init $drive & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
     zenity --progress --pulsate --auto-close \
     --width=300 --height=150 \
@@ -80,7 +75,7 @@ gui () {
     --text="Initializing drive..." \
     2>/dev/null || kill $PIPED_PID );
   check
-  copy $drive $source $password & PIPED_PID=$!
+  copy $drive $source & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
     zenity --progress --pulsate --auto-close \
     --width=300 --height=150 \
@@ -97,7 +92,7 @@ gui () {
 if [ "$#" -eq 0 ]; then
   help
 fi
-while [[ "$#" > 0 ]]; do case $1 in
+while [ "$#" -gt 0 ]; do case $1 in
   -h|--help)
     help
     shift;;
@@ -109,13 +104,12 @@ while [[ "$#" > 0 ]]; do case $1 in
     if [ $# -ne 3 ]; then
       error "Invalid arguments"
     else
-      name=$1
-      source=$2
-      drive=$3
+      source=$1
+      drive=$2
       read -s -p "Enter your system password: " password
       echo " "
-      init $drive $name $password
-      copy $drive $source $password
+      init $drive
+      copy $drive $source
       finish
     fi
 esac; shift; done

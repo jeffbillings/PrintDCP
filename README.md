@@ -16,7 +16,7 @@ sudo cp PrintDCP/printDCP /usr/bin
 
 Launch
 ```
-printDCP -g
+sudo printDCP -g
 ```
 
 ## License
