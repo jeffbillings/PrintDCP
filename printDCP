@@ -36,6 +36,7 @@ init () {
   echo "Creating partition..."
     parted -s $drive mklabel msdos
     parted -s $drive mkpart primary 0% 100%
+    sleep 5
     mkfs -t ext3 -I 128 -m 0 -F $volume
   echo "Mounting volume..."
     sleep 5
