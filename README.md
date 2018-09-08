@@ -14,8 +14,6 @@ sudo cp PrintDCP/printDCP /usr/bin
 ```
 
 ## Usage
-Installation
-
 GUI
 ```
 sudo printDCP -g
