@@ -6,10 +6,6 @@
 # (c)2018 Jeff Billings
 #------------------------
 
-if [ $UID -ne 0 ]; then
-  echo "This script must be run as root."
-  exit 1
-fi
 help () {
   echo "printDCP - automates the process of creating DCP drives"
   echo " "
@@ -34,21 +30,24 @@ finish () {
 }
 init () {
   drive=$1
+  volume="${drive}1"
   echo "Unmounting device..."
     umount -a $drive
   echo "Creating partition..."
     parted -s $drive mklabel msdos
     parted -s $drive mkpart primary 0% 100%
-    mkfs -t ext3 -I 128 -m 0 -F "${drive}1"
+    mkfs -t ext3 -I 128 -m 0 -F $volume
   echo "Mounting volume..."
-    gio mount -d $drive
+    sleep 5
+    su -c "gio mount -d ${volume}" $SUDO_USER
 }
 copy () {
   drive=$1
   source=$2
-  mount=$(lsblk $drive -o MOUNTPOINT -n)
+  volume="${drive}1"
+  mount=$(lsblk $volume -o MOUNTPOINT -n)
   echo "Copying DCP, performing checksum, setting permissions..."
-    rsync -a --progress --checksum --chmod 755 $source $mount
+    sudo -S rsync -a --progress --checksum --chmod 755 $source $mount
 }
 gui () {
   IFS=$'\n'
@@ -104,10 +103,8 @@ while [ "$#" -gt 0 ]; do case $1 in
     if [ $# -ne 3 ]; then
       error "Invalid arguments"
     else
-      source=$1
-      drive=$2
-      read -s -p "Enter your system password: " password
-      echo " "
+      drive=$1
+      source=$2
       init $drive
       copy $drive $source
       finish
