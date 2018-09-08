@@ -9,7 +9,7 @@
 help () {
   echo "printDCP - automates the process of creating DCP drives"
   echo " "
-  echo "Usage:   printDCP [source path] [drive device path]"
+  echo "Usage:   printDCP [source folder path] [drive device path]"
   echo " "
   echo "  -g --gui   Graphical Interface"
   echo "  -h --help  Operating Instructions"
@@ -101,11 +101,11 @@ while [ "$#" -gt 0 ]; do case $1 in
     finish
     shift;;
   *)
-    if [ $# -ne 3 ]; then
+    if [ $# -ne 2 ]; then
       error "Invalid arguments"
     else
-      drive=$1
-      source=$2
+      source=$1
+      drive=$2
       init $drive
       copy $drive $source
       finish

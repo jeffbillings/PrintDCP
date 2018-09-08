@@ -7,16 +7,23 @@ Automates the process of creating DCP drives in their native environment.
 - Source DCP Folder (on harddrive or network)
 - Destination Drive (CRU hotswap, usb external, usb thumb)
 
-## Usage
-Install
+## Installation
 ```
 sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
 sudo cp PrintDCP/printDCP /usr/bin
 ```
 
-Launch
+## Usage
+Installation
+
+GUI
 ```
 sudo printDCP -g
+```
+
+Terminal
+```
+sudo printDCP [source folder path] [drive device path]
 ```
 
 ## License
