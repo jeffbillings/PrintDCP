@@ -32,7 +32,7 @@ init () {
   drive=$1
   volume="${drive}1"
   echo "Unmounting device..."
-    umount -a $drive
+    umount $drive*
   echo "Creating partition..."
     parted -s $drive mklabel msdos
     parted -s $drive mkpart primary 0% 100%
@@ -63,7 +63,7 @@ gui () {
   check
   source=$(zenity --file-selection --directory \
     --title="Choose source DCP folder ..." \
-    --filename=$HOME/ \
+    --filename=$HOME/Desktop/ \
     2>/dev/null
   )
   check
