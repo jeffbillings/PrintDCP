@@ -61,8 +61,9 @@ copy () {
 }
 gui () {
   IFS=$'\n'
-  drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE |
-    awk -F '"' '{print $2"\n"$4"\n"$6}' |
+  sys=$(lsblk -n -p --output PKNAME $(findmnt / -o SOURCE -n) )
+  drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE | 
+    awk -v sys="$sys" -F '"' '{ if ($2 != sys) print $2"\n"$4"\n"$6 }' |
     zenity --list \
     --title="PrintDCP" \
     --width=400 --height=300 \
