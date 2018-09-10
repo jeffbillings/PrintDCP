@@ -18,6 +18,12 @@ error () {
   echo "(Error) "$1
   exit 1
 }
+root () {
+  if [ $UID -ne 0 ]; then
+    echo "This script must be run as root."
+    exit 1
+  fi
+}
 check () {
   if [[ $? -eq 1 ]]; then
     echo "(Cancelled by user)"
@@ -100,6 +106,7 @@ while [ "$#" -gt 0 ]; do case $1 in
     help
     shift;;
   -g|--gui)
+    root
     gui
     finish
     shift;;
@@ -109,6 +116,7 @@ while [ "$#" -gt 0 ]; do case $1 in
     else
       source=$1
       drive=$2
+      root
       init $drive
       copy $drive $source
       finish
