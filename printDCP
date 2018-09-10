@@ -36,11 +36,14 @@ init () {
   echo "Creating partition..."
     parted -s $drive mklabel msdos
     parted -s $drive mkpart primary 0% 100%
-    sleep 5
-    mkfs -t ext3 -I 128 -m 0 -F $volume
+  echo "Waiting for partition to become active..."
+    while [ ! -e $volume ]; do continue; done
+  echo "Creating filesystem..."
+    until format=$(mkfs -t ext3 -I 128 -m 0 -F $volume); do continue; done 2>/dev/null
+    echo "$format"
   echo "Mounting volume..."
-    sleep 5
-    su -c "gio mount -d ${volume}" $SUDO_USER
+    until mount=$(su -c "gio mount -d ${volume}" $SUDO_USER); do continue; done 2>/dev/null
+    echo "$mount"
 }
 copy () {
   drive=$1
