@@ -37,12 +37,12 @@ finish () {
 init () {
   drive=$1
   volume="${drive}1"
-  echo "Unmounting device..."
+  echo "Unmounting disk..."
     umount $drive*
   echo "Creating partition..."
     parted -s $drive mklabel msdos
     parted -s $drive mkpart primary 0% 100%
-  echo "Waiting for partition to become active..."
+  echo "Waiting for partition..."
     while [ ! -e $volume ]; do continue; done
   echo "Creating filesystem..."
     until format=$(mkfs -t ext3 -I 128 -m 0 -F $volume); do continue; done 2>/dev/null
@@ -61,9 +61,9 @@ copy () {
 }
 gui () {
   IFS=$'\n'
-  sys=$(lsblk -n -p --output PKNAME $(findmnt / -o SOURCE -n) )
-  drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE | 
-    awk -v sys="$sys" -F '"' '{ if ($2 != sys) print $2"\n"$4"\n"$6 }' |
+  os=$(lsblk -n -p --output PKNAME $(findmnt / -o SOURCE -n) )
+  drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE |
+    awk -v os="$os" -F '"' '{ if ($2 != os) print $2"\n"$4"\n"$6 }' |
     zenity --list \
     --title="PrintDCP" \
     --width=400 --height=300 \
