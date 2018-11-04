@@ -1,10 +1,9 @@
 #!/bin/bash
-#------------------------
-# PrintDCP
-#------------------------
+#
+# PrintDCP v1.42
+#
 # GNU GPLv3
 # (c)2018 Jeff Billings
-#------------------------
 
 help () {
   echo "printDCP - automates the process of creating DCP drives"
