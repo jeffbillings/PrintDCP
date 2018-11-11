@@ -9,7 +9,7 @@ Automates the process of creating DCP drives in their native environment.
 ## Installation
 ```
 sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
-sudo cp PrintDCP/printDCP /usr/bin
+sudo cp PrintDCP/bin/printDCP /usr/bin
 ```
 
 ## Usage
