@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# PrintDCP v1.43
+# PrintDCP v1.44
 #
 # GNU GPLv3
 # (c)2018 Jeff Billings
@@ -70,11 +70,11 @@ gui () {
   drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE |
     awk -v os="$os" -F '"' '{ if ($2 != os) print $2"\n"$4"\n"$6 }' |
     zenity --list \
-    --title="PrintDCP" \
-    --width=400 --height=300 \
-    --text="Select a drive to <b>erase</b> and prepare:" \
-    --column="Device" --column="Model" --column="Size" \
-    2>/dev/null )
+      --title="PrintDCP" \
+      --width=400 --height=300 \
+      --text="Select a drive to <b>erase</b> and prepare:" \
+      --column="Device" --column="Model" --column="Size" \
+      2>/dev/null )
   check
   source=$(zenity --file-selection --directory \
     --title="Choose source DCP folder ..." \
@@ -85,18 +85,18 @@ gui () {
   init $drive & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
     zenity --progress --pulsate --auto-close \
-    --width=300 --height=150 \
-    --title="PrintDCP" \
-    --text="Initializing drive..." \
-    2>/dev/null || kill $PIPED_PID && exit 1 );
+      --width=300 --height=150 \
+      --title="PrintDCP" \
+      --text="Initializing drive..." \
+      2>/dev/null || kill $PIPED_PID && exit 1 );
   check
   copy $drive $source & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
     zenity --progress --pulsate --auto-close \
-    --width=300 --height=150 \
-    --title="PrintDCP" \
-    --text="Copying DCP..." \
-    2>/dev/null || kill $PIPED_PID && exit 1 );
+      --width=300 --height=150 \
+      --title="PrintDCP" \
+      --text="Copying DCP..." \
+      2>/dev/null || kill $PIPED_PID && exit 1 );
   check
   zenity --info \
     --width=300 --height=150 \
