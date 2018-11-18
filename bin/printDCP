@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# PrintDCP v1.42
+# PrintDCP v1.43
 #
 # GNU GPLv3
 # (c)2018 Jeff Billings
@@ -37,7 +37,7 @@ init () {
   drive=$1
   volume="${drive}1"
   echo "Unmounting disk..."
-    umount $drive*
+    umount $drive* 2>/dev/null
   echo "Creating partition..."
     parted -s $drive mklabel msdos
     parted -s $drive mkpart primary 0% 100%
@@ -59,6 +59,12 @@ copy () {
     sudo -S rsync -a --progress --checksum --chmod 755 $source $mount
 }
 gui () {
+  zenity --info \
+    --title="PrintDCP" \
+    --icon-name='drive-harddisk' \
+    --text="This utility prepares DCP drives\n\nBefore continuing:\n1. Connect destination drive\n2. Have access to source DCP" \
+    2>/dev/null
+  check
   IFS=$'\n'
   os=$(lsblk -n -p --output PKNAME $(findmnt / -o SOURCE -n) )
   drive=$(lsblk -I 8 -d -n -p -P --output NAME,MODEL,SIZE |
@@ -82,7 +88,7 @@ gui () {
     --width=300 --height=150 \
     --title="PrintDCP" \
     --text="Initializing drive..." \
-    2>/dev/null || kill $PIPED_PID );
+    2>/dev/null || kill $PIPED_PID && exit 1 );
   check
   copy $drive $source & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
@@ -90,7 +96,7 @@ gui () {
     --width=300 --height=150 \
     --title="PrintDCP" \
     --text="Copying DCP..." \
-    2>/dev/null || kill $PIPED_PID );
+    2>/dev/null || kill $PIPED_PID && exit 1 );
   check
   zenity --info \
     --width=300 --height=150 \
