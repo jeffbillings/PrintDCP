@@ -61,6 +61,7 @@ copy () {
 gui () {
   zenity --info \
     --title="PrintDCP" \
+    --width=300 --height=150 \
     --icon-name='drive-harddisk' \
     --text="This utility prepares DCP drives\n\nBefore continuing:\n1. Connect destination drive\n2. Have access to source DCP" \
     2>/dev/null
@@ -88,7 +89,7 @@ gui () {
       --width=300 --height=150 \
       --title="PrintDCP" \
       --text="Initializing drive..." \
-      2>/dev/null || kill $PIPED_PID && exit 1 );
+      2>/dev/null || ( kill $PIPED_PID && exit 1 ) );
   check
   copy $drive $source & PIPED_PID=$!
   tail -f /dev/null --pid $PIPED_PID | (
@@ -96,7 +97,7 @@ gui () {
       --width=300 --height=150 \
       --title="PrintDCP" \
       --text="Copying DCP..." \
-      2>/dev/null || kill $PIPED_PID && exit 1 );
+      2>/dev/null || ( kill $PIPED_PID && exit 1 ) );
   check
   zenity --info \
     --width=300 --height=150 \
