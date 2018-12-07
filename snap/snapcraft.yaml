@@ -1,0 +1,16 @@
+
+  name: print-dcp
+  version: '0.1+git'
+  summary: A script for preparing and copying DCP drives.
+  description: |
+    PrintDCP can be run as a GUI wizard or terminal command and will
+    prepare any drive for a Digital Cinema Package (or "DCP").
+
+  grade: devel
+  confinement: devmode
+
+  parts:
+    my-part:
+      # See 'snapcraft plugins'
+      plugin: nil
+  
