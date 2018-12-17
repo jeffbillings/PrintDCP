@@ -5,6 +5,7 @@
 # GNU GPLv3
 # (c)2018 Jeff Billings
 
+# Command-line usage
 help () {
   echo "printDCP - automates the process of creating DCP drives"
   echo " "
@@ -13,26 +14,31 @@ help () {
   echo "  -g --gui   Graphical Interface"
   echo "  -h --help  Operating Instructions"
 }
+
+# Completion handling
 error () {
   echo "(Error) "$1
   exit 1
-}
-root () {
-  if [ $UID -ne 0 ]; then
-    echo "This script must be run as root."
-    exit 1
-  fi
-}
-check () {
-  if [[ $? -eq 1 ]]; then
-    echo "(Cancelled by user)"
-    exit 1
-  fi
 }
 finish () {
   echo "(Finished)"
   exit 0
 }
+
+# Check for root privileges
+root () {
+  if [ $UID -ne 0 ]; then
+    error "This script must be run as root."
+  fi
+}
+# Check for user cancel
+check () {
+  if [[ $? -eq 1 ]]; then
+    error "Cancelled by user"
+  fi
+}
+
+# Disk preparation commands
 init () {
   drive=$1
   volume="${drive}1"
@@ -50,6 +56,8 @@ init () {
     until mount=$(su -c "gio mount -d ${volume}" $SUDO_USER); do continue; done 2>/dev/null
     echo "$mount"
 }
+
+# Disk copying commands
 copy () {
   drive=$1
   source=$2
@@ -58,6 +66,8 @@ copy () {
   echo "Copying DCP, performing checksum, setting permissions..."
     sudo -S rsync -a --progress --checksum --chmod 755 $source $mount
 }
+
+# Graphical user interface
 gui () {
   zenity --info \
     --title="PrintDCP" \
@@ -105,9 +115,13 @@ gui () {
     --text="Drive preparation finished." \
     2>/dev/null
 }
+
+# Default to help
 if [ "$#" -eq 0 ]; then
   help
 fi
+
+# Parse input
 while [ "$#" -gt 0 ]; do case $1 in
   -h|--help)
     help
