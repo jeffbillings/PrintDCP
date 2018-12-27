@@ -2,9 +2,7 @@
 Automates the process of creating DCP drives in their native environment.
 
 ## Requirements
-- Ubuntu Desktop 16.04, 18.04
-- Source DCP Folder (on harddrive or network)
-- Destination Drive (CRU hotswap, usb external, usb thumb)
+- Ubuntu Desktop 16.04.4 - 18.04 (Minimal install)
 
 ## Installation
 ```
