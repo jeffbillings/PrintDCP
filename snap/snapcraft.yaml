@@ -1,6 +1,6 @@
 
   name: print-dcp
-  version: '0.1+git'
+  version: '0.2'
   summary: A script for preparing and copying DCP drives.
   description: |
     PrintDCP can be run as a GUI wizard or terminal command and will
