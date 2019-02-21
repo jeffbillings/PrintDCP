@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# PrintDCP v1.44
+# PrintDCP
 #
 # GNU GPLv3
-# (c)2018 Jeff Billings
+# (c)2019 Jeff Billings
 
 # Command-line usage
 help () {
