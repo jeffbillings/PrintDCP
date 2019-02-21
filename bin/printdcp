@@ -7,7 +7,7 @@
 
 # Command-line usage
 help () {
-  echo "printDCP - automates the process of creating DCP drives"
+  echo "PrintDCP - automates the process of creating DCP drives"
   echo " "
   echo "Usage:   printdcp [source folder path] [drive device path]"
   echo " "
