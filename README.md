@@ -2,7 +2,7 @@
 Automates the process of creating DCP drives in their native environment.
 
 ## Requirements
-Ubuntu Desktop 16.04.4 and later (Minimal install)
+Ubuntu Desktop 18.04+ (Minimal install)
 
 ## Installation
 ```
@@ -13,12 +13,12 @@ sudo cp PrintDCP/bin/printDCP /usr/bin
 ## Usage
 GUI
 ```
-sudo printDCP -g
+sudo printdcp -g
 ```
 
 Terminal
 ```
-sudo printDCP [source folder path] [drive device path]
+sudo printdcp [source folder path] [drive device path]
 ```
 
 ## License
