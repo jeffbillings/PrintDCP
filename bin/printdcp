@@ -9,7 +9,7 @@
 help () {
   echo "printDCP - automates the process of creating DCP drives"
   echo " "
-  echo "Usage:   printDCP [source folder path] [drive device path]"
+  echo "Usage:   printdcp [source folder path] [drive device path]"
   echo " "
   echo "  -g --gui   Graphical Interface"
   echo "  -h --help  Operating Instructions"
