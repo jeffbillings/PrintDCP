@@ -6,7 +6,6 @@ description: |
   prepare any drive for a Digital Cinema Package (or "DCP").
 grade: devel
 confinement: devmode
-architectures: [ all ]
 
 apps:
   print-dcp:
