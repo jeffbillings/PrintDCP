@@ -4,8 +4,8 @@ summary: A script for preparing and copying DCP drives.
 description: |
   PrintDCP can be run as a GUI wizard or terminal command and will
   prepare any drive for a Digital Cinema Package (or "DCP").
-grade: stable
-confinement: strict
+grade: devel
+confinement: devmode
 architectures: [ all ]
 
 apps:
