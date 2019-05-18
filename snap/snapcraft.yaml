@@ -17,4 +17,3 @@ parts:
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
       cp print-dcp.sh $SNAPCRAFT_PART_INSTALL/bin/
-      cp PrintDCP.desktop ~/.local/share/applications
