@@ -5,6 +5,8 @@
 # GNU GPLv3
 # (c)2019 Jeff Billings
 
+set -x
+
 # Command-line usage
 help () {
   echo "PrintDCP - automates the process of creating DCP drives"
