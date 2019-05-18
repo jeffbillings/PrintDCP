@@ -9,7 +9,7 @@ confinement: devmode
 
 apps:
   print-dcp:
-    command: sudo ./print-dcp.sh --gui
+    command: /usr/bin/sudo ./print-dcp.sh -g
 
 parts:
   print-dcp:
