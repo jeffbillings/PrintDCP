@@ -1,16 +1,16 @@
 # PrintDCP
 Automates the process of creating DCP drives in their native environment.
 
-## Requirements
+## Requirement
 Ubuntu Desktop 18.04+ (Minimal install)
 
-## Manual Install
+## Install
 ```
 sudo git clone https://github.com/jeffbillings/PrintDCP.git PrintDCP
 sudo cp PrintDCP/bin/printDCP /usr/bin
 ```
 
-## Usage
+## Use
 GUI
 ```
 sudo printdcp -g
