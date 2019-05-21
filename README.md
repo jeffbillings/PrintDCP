@@ -2,7 +2,7 @@
 Automates the process of creating DCP drives in their native environment.
 
 ## Requirements
-Ubuntu Desktop 18.04 (Minimal install)
+Ubuntu Desktop 18.04+ (Minimal install)
 
 ## Manual Install
 ```
