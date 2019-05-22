@@ -7,8 +7,8 @@ Ubuntu Desktop 18.04+ (Minimal install)
 ## Install
 ```
 wget https://github.com/jeffbillings/PrintDCP/raw/master/printdcp
-sudo chmod +x printdcp
-sudo cp PrintDCP/bin/printdcp /usr/bin
+chmod +x printdcp
+sudo cp printdcp /usr/bin
 ```
 
 ## Use
