@@ -1,5 +1,5 @@
 name: print-dcp
-version: '0.12'
+version: '0.13'
 summary: A script for preparing and copying DCP drives.
 description: |
   PrintDCP can be run as a GUI wizard or terminal command and will
@@ -9,7 +9,7 @@ confinement: devmode
 
 apps:
   print-dcp:
-    command: pkexec bash $SNAP/opt/print-dcp/bin/print-dcp.sh -g
+    command: /usr/bin/pkexec bash $SNAP/opt/print-dcp/bin/print-dcp.sh -g
 
 parts:
   print-dcp:
