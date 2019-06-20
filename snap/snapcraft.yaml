@@ -1,5 +1,5 @@
 name: print-dcp
-version: '0.6'
+version: '0.7'
 summary: A script for preparing and copying DCP drives.
 description: |
   PrintDCP can be run as a GUI wizard or terminal command and will
@@ -9,11 +9,11 @@ confinement: devmode
 
 apps:
   print-dcp:
-    command: gksu -w -u admin gksu bash print-dcp -g
+    command: bash $SNAP/opt/print-dcp/bin/print-dcp.sh
 
 parts:
   print-dcp:
-    plugin: nil
-    install: |
-      mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
-      cp print-dcp $SNAPCRAFT_PART_INSTALL/bin/
+    source: .
+    plugin: dump
+    organize:
+      foo.sh: opt/foo/bin/print-dcp.sh
