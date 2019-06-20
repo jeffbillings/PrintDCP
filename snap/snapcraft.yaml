@@ -9,11 +9,11 @@ confinement: devmode
 
 apps:
   print-dcp:
-    command: bash $SNAP/opt/print-dcp/bin/printdcp.sh -g
+    command: /usr/bin/sudo bash print-dcp -g
 
 parts:
   print-dcp:
-    source: .
-    plugin: dump
-    organize:
-      printdcp.sh: opt/print-dcp/bin/printdcp.sh
+    plugin: nil
+    install: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
+      cp print-dcp $SNAPCRAFT_PART_INSTALL/bin/
