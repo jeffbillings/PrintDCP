@@ -9,7 +9,7 @@ confinement: devmode
 
 apps:
   print-dcp:
-    command: sudo -S bash $SNAP/opt/print-dcp/bin/print-dcp.sh -g
+    command: pkexec bash $SNAP/opt/print-dcp/bin/print-dcp.sh -g
 
 parts:
   print-dcp:
