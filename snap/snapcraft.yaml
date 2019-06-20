@@ -1,5 +1,5 @@
 name: print-dcp
-version: '0.7'
+version: '0.8'
 summary: A script for preparing and copying DCP drives.
 description: |
   PrintDCP can be run as a GUI wizard or terminal command and will
@@ -16,4 +16,4 @@ parts:
     source: .
     plugin: dump
     organize:
-      foo.sh: opt/foo/bin/print-dcp.sh
+      foo.sh: opt/print-dcp/bin/print-dcp.sh
