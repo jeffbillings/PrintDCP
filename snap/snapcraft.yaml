@@ -9,7 +9,7 @@ confinement: devmode
 
 apps:
   print-dcp:
-    command: sh $SNAP/opt/print-dcp/bin/printdcp.sh -g
+    command: bash $SNAP/opt/print-dcp/bin/printdcp.sh -g
 
 parts:
   print-dcp:
