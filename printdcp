@@ -50,7 +50,7 @@ init () {
   echo "Waiting for partition..."
     while [ ! -e $volume ]; do continue; done
   echo "Creating filesystem..."
-    until format=$(mkfs -t ext3 -I 128 -m 0 -F $volume); do continue; done 2>/dev/null
+    until format=$(mkfs -t ext2 -I 128 -m 0 -F $volume); do continue; done 2>/dev/null
     echo "$format"
   echo "Mounting volume..."
     until mount=$(su -c "gio mount -d ${volume}" $SUDO_USER); do continue; done 2>/dev/null
