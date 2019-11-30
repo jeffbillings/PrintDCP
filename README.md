@@ -23,7 +23,7 @@ sudo printdcp [source folder path] [drive device path]
 ```
 
 ## Screenshots
-![image](https://user-images.githubusercontent.com/8293352/69906355-1ace8700-1377-11ea-8954-3e4094d83107.png?s=200)
+<img src="https://user-images.githubusercontent.com/8293352/69906355-1ace8700-1377-11ea-8954-3e4094d83107.png" width="100">
 
 ![image](https://user-images.githubusercontent.com/8293352/69906362-28840c80-1377-11ea-8f19-c53e0f8e837a.png?s=200)
 
